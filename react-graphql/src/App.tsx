@@ -14,6 +14,21 @@ const ALL_PERSONS = gpl`
   }
 `
 
+export const FIND_PERSON = gpl`
+  query findPersonByName($nameToSearch: String!) {
+    findPerson(name: $nameToSearch) {
+      name
+      phone
+      id
+      address {
+        street
+        city
+      }
+    }
+  }
+`
+
+
 
 function App() {
   const result = useQuery(ALL_PERSONS)
