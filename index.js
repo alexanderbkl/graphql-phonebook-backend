@@ -40,6 +40,11 @@ type Person {
     id: ID!
 }
 
+enum YesNo {
+    YES
+    NO
+}
+
 type Query {
     personCount: Int!
     allPersons(phone: YesNo): [Person!]!
@@ -53,6 +58,7 @@ type Mutation {
         street: String!
         city: String!
     ): Person
+
     editNumber(
         name: String!
         phone: String!
@@ -96,7 +102,7 @@ const resolvers = {
             const person = { ...args, id: uuid() }
             persons = persons.concat(person)
             return person
-        }
+        },
         editNumber: (root, args) => {
             const person = persons.find(p => p.name === args.name)
             if (!person) {
