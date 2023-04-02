@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import { useQuery } from '@apollo/client/react';
+import gpl from 'graphql-tag';
+import Persons from './components/Persons';
+
+const ALL_PERSONS = gpl`
+  query {
+    allPersons {
+      name
+      phone
+      id
+    }
+  }
+`
+
+
 function App() {
+  const result = useQuery(ALL_PERSONS)
+
+  if (result.loading) {
+    return <div>loading...</div>
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Persons persons={result.data.allPersons} />
     </div>
   );
 }
